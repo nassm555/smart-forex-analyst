@@ -4,7 +4,7 @@ function App() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch("/api/analyze/all")
+    fetch("https://رابط-backend-الخاص-بك.onrender.com/api/analyze/all")
       .then(res => res.json())
       .then(json => setData(json));
   }, []);
