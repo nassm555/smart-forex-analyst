@@ -28,15 +28,14 @@ app.get("/api/analyze", (req, res) => {
   });
 });
 
-/* ===== Serve React in production ===== */
-if (process.env.NODE_ENV === "production") {
-  const buildPath = path.join(__dirname, "..", "frontend", "build");
-  app.use(express.static(buildPath));
+/* ===== Serve React build (SAFE) ===== */
+const buildPath = path.join(__dirname, "..", "frontend", "build");
+app.use(express.static(buildPath));
 
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(buildPath, "index.html"));
-  });
-}
+// 👇 هذا هو الحل (بدون *)
+app.use((req, res) => {
+  res.sendFile(path.join(buildPath, "index.html"));
+});
 
 /* ===== Start Server ===== */
 app.listen(PORT, () => {
