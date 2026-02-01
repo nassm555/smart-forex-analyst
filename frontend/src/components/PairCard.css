@@ -1,0 +1,45 @@
+.pair-card {
+  background: #161b22;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.pair-card h2 {
+  margin-bottom: 10px;
+}
+
+.tf-block {
+  margin-bottom: 10px;
+}
+
+.tf-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.tf-header.buy {
+  background: #1f6f43;
+}
+
+.tf-header.sell {
+  background: #8b1d1d;
+}
+
+.tf-header.wait {
+  background: #444;
+}
+
+.tf-details {
+  background: #0e1117;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 5px;
+}
+
+.tf-details ul {
+  margin-top: 10px;
+}

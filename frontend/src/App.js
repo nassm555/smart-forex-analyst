@@ -1,34 +1,47 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import "./App.css";
 
 function App() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://رابط-backend-الخاص-بك.onrender.com/api/analyze/all")
-      .then(res => res.json())
-      .then(json => setData(json));
+    fetch("/api/analyze/all")
+      .then((res) => res.json())
+      .then((json) => {
+        console.log("ALL DATA:", json);
+        setData(json);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
   }, []);
 
-  if (!data) return <h2>Loading Smart Analysis...</h2>;
+  if (loading) {
+    return <div className="loading">Loading Smart Analysis...</div>;
+  }
 
   return (
-    <div style={{ padding: 20, fontFamily: "Arial" }}>
-      <h1>Smart Forex Analyst - Multi Pair & Multi Timeframe</h1>
+    <div className="app">
+      <h1>Smart Forex Analyst</h1>
 
-      {data.map(({ pair, analysis }) => (
-        <div key={pair} style={{ marginBottom: 30 }}>
-          <h2>{pair}</h2>
-          {analysis.map((tfData, i) => (
-            <div key={i} style={{ border: "1px solid #ccc", padding: 10, marginBottom: 10 }}>
-              <h4>Timeframe: {tfData.timeframe}</h4>
-              <h3 style={{ color: tfData.direction === "BUY" ? "green" : "red" }}>
-                {tfData.decision}
-              </h3>
-              <p>Score: {tfData.score}</p>
-              <ul>
-                {tfData.reasons.map((r, idx) => <li key={idx}>{r}</li>)}
-              </ul>
-              <p>Entry: {tfData.tradePlan.entry} | Stop: {tfData.tradePlan.stop} | TP1: {tfData.tradePlan.tp1} | TP2: {tfData.tradePlan.tp2} | Secure: {tfData.tradePlan.secureAt}</p>
+      {data.map((pairBlock) => (
+        <div key={pairBlock.pair} className="pair-block">
+          <h2>{pairBlock.pair}</h2>
+
+          {pairBlock.analysis.map((tf) => (
+            <div key={tf.timeframe} className="tf-card">
+              <strong>
+                {tf.timeframe} — {tf.decision}
+              </strong>
+
+              <p>Score: {tf.score}</p>
+              <p>Entry: {tf.tradePlan.entry}</p>
+              <p>SL: {tf.tradePlan.stop}</p>
+              <p>TP1: {tf.tradePlan.tp1}</p>
+              <p>TP2: {tf.tradePlan.tp2}</p>
             </div>
           ))}
         </div>
