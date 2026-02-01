@@ -9,7 +9,7 @@ function App() {
     fetch("/api/analyze/all")
       .then((res) => res.json())
       .then((json) => {
-        console.log("ALL DATA:", json);
+        console.log("API DATA:", json);
         setData(json);
         setLoading(false);
       })
